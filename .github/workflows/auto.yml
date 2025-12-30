@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install google-generativeai google-auth google-auth-oauthlib requests ffmpeg-python pandas
+         pip install google-genai requests ffmpeg-python pandas pytrends
 
       - name: Run script
         env:
