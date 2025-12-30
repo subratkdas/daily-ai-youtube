@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-         pip install google-genai requests ffmpeg-python pandas pytrends
+         pip install google-genai requests ffmpeg-python pandas feedparser
 
       - name: Run script
         env:
