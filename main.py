@@ -1,18 +1,17 @@
 import os
 import requests
-import feedparser
 from google.genai import Client
 
 client = Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 def get_trending_topic():
-    url = "https://trends.google.com/trends/trendingsearches/daily/rss?geo=IN"
-    feed = feedparser.parse(url)
-    first_title = feed.entries[0].title
-    return first_title
+    url = "https://gtrends.hotkeywords.io/api/google-trends/daily?geo=IN"
+    res = requests.get(url).json()
+    topic = res["data"][0]["title"]
+    return topic
 
 def generate_script(topic):
-    prompt = f"Write a powerful viral 25-second motivational short script inspired by this trending Indian news topic: {topic}. Make it punchy, emotional, fast-paced, 1–2 sentence per line."
+    prompt = f"Write a viral short 20-second motivational script inspired by this trending Indian topic: {topic}. Short emotional lines. High energy. End with a strong closing punch."
     result = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
     return result.text
 
