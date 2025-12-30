@@ -1,24 +1,19 @@
 import os
-import requests
-import google.generativeai as genai
-import json
+from pytrends.request import TrendReq
+from google.genai import Client
 
-# Configure Gemini
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+client = Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 def get_trending_topic():
-    url = "https://trends.google.com/trends/api/dailytrends?hl=en-IN&tz=-330&geo=IN"
-    res = requests.get(url)
-    text = res.text.replace(")]}',", "")   # remove security prefix
-    data = json.loads(text)
-    topic = data["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"]
+    pytrend = TrendReq(hl='en-IN', tz=330)
+    trending = pytrend.trending_searches(pn='india')
+    topic = trending[0][0]  # top trending keyword
     return topic
 
 def generate_script(topic):
-    prompt = f"Write a powerful 30-second motivational YouTube Shorts script inspired by this trending topic: {topic}. Make it emotional, short sentences, high-impact."
-    model = genai.GenerativeModel("gemini-pro")
-    reply = model.generate_content(prompt)
-    return reply.text
+    prompt = f"Write a powerful 25-second emotional motivational script inspired by this trending topic: {topic}. Use short punchy lines. Suitable for YouTube Shorts."
+    result = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
+    return result.text
 
 if __name__ == "__main__":
     topic = get_trending_topic()
