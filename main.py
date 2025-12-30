@@ -21,7 +21,7 @@ def get_trending_topic():
 def generate_script(topic):
     """Use Gemini AI to create motivational script"""
     prompt = f"Write a viral motivational 20-second YouTube Shorts script inspired by: {topic}. Use simple English, emotional lines, 1–2 sentences per line, end with strong closing."
-    result = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
+   result = client.models.generate_content(model="models/gemini-1.0-pro", contents=prompt)
     return result.text
 
 if __name__ == "__main__":
